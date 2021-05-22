@@ -17,7 +17,7 @@ plate::plate(double _width, int new_number, std::vector<Rectangle> &new_rectangl
     for (auto &rectangle : rectangles) S += rectangle.GetArea();
 }
 
-double plate::RSegment(double x_block, double y_block , double value_father, double upper_father,
+double plate::RSegment(double x_block, double y_block, double value_father, double upper_father,
                        std::vector<int> &before_placed, std::vector<int> &current_placed, int index) {
     //step 1
     y_block = plate_width;
@@ -77,35 +77,35 @@ double plate::RSegment(double x_block, double y_block , double value_father, dou
                     }
 
                     //STEP 4.5
-                    for (auto k = i + 1; k != number_of_rectangles; ++k) {
-                        before_placed[k] += current_placed_a[k];
+                    for (auto k=(i+1); k != number_of_rectangles; ++k) {
+                        if(current_placed_a[k]) before_placed[k] = PLACED;
                     }
                     std::vector<int> current_placed_b(number_of_rectangles, NOT_PLACED);
                     double value_b = RSegment(x_b, y_b, value_father + rectangles[i].GetArea() + value_a, upper_father,
-                                            before_placed, current_placed_b, kc);
+                                              before_placed, current_placed_b, kc);
 
                     double value = rectangles[i].GetArea() + value_a + value_b;
                     if (value <= v_max) {
                         //step 4.8
-                        for (auto k = i + 1; k != number_of_rectangles; ++k) {
-                            before_placed[k] -= current_placed_a[k];
+                        for (auto k = (i + 1); k != number_of_rectangles; ++k) {
+                            if(current_placed_a[k]) before_placed[k]=NOT_PLACED;
                         }
                     } else {//step 4.6
                         if (value <= v_max) {
                             //STEP 4.8
-                            for (auto k = i + 1; k != number_of_rectangles; ++k) {
-                                before_placed[k] -= current_placed_a[k];
+                            for (auto k=(i+1); k != number_of_rectangles; ++k) {
+                                if(current_placed_a[k]) before_placed[k]=NOT_PLACED;
                             }
                         } else {
                             v_max = value;
                             for (auto k = 0; k != number_of_rectangles; ++k) {
-                                current_placed[k] = current_placed_a[k] + current_placed_b[k];
+                                if(current_placed_a[k] || current_placed_b[k]) current_placed[k] = PLACED;
                             }
                             current_placed[i] = PLACED;
                             if (value_father + v_max <= v_best) {
                                 //STEP 4.8
-                                for (auto k = i + 1; k != number_of_rectangles; ++k) {
-                                    before_placed[k] -= current_placed_a[k];
+                                for (auto k=(i+1); k != number_of_rectangles; ++k) {
+                                    if(current_placed_a[k]) before_placed[k]=NOT_PLACED;
                                 }
                             } else {
                                 //STEP 4.7
@@ -174,36 +174,36 @@ double plate::RSegment(double x_block, double y_block , double value_father, dou
                         }
 
                         //STEP 4.5
-                        for (auto k = i + 1; k != number_of_rectangles; ++k) {
-                            before_placed[k] += current_placed_a[k];
+                        for (auto k=(i+1); k != number_of_rectangles; ++k) {
+                            if(current_placed_a[k]) before_placed[k] = PLACED;
                         }
                         std::vector<int> current_placed_b(number_of_rectangles, NOT_PLACED);
                         double value_b = RSegment(x_b, y_b, value_father + rectangles[i].GetArea() + value_a,
-                                                upper_father,
-                                                before_placed, current_placed_b, kc);
+                                                  upper_father,
+                                                  before_placed, current_placed_b, kc);
 
                         double value = rectangles[i].GetArea() + value_a + value_b;
                         if (value <= v_max) {
                             //step 4.8
-                            for (auto k = i + 1; k != number_of_rectangles; ++k) {
-                                before_placed[k] -= current_placed_a[k];
+                            for (auto k=(i+1); k != number_of_rectangles; ++k) {
+                                if(current_placed_a[k]) before_placed[k]=NOT_PLACED;
                             }
                         } else {//step 4.6
                             if (value <= v_max) {
                                 //STEP 4.8
-                                for (auto k = i + 1; k != number_of_rectangles; ++k) {
-                                    before_placed[k] -= current_placed_a[k];
+                                for (auto k=(i+1); k != number_of_rectangles; ++k) {
+                                    if(current_placed_a[k]) before_placed[k]=NOT_PLACED;
                                 }
                             } else {
                                 v_max = value;
                                 for (auto k = 0; k != number_of_rectangles; ++k) {
-                                    current_placed[k] = current_placed_a[k] + current_placed_b[k];
+                                    if(current_placed_a[k] || current_placed_b[k]) current_placed[k] = PLACED;
                                 }
                                 current_placed[i] = PLACED;
                                 if (value_father + v_max <= v_best) {
                                     //STEP 4.8
-                                    for (auto k = i + 1; k != number_of_rectangles; ++k) {
-                                        before_placed[k] -= current_placed_a[k];
+                                    for (auto k=(i+1); k != number_of_rectangles; ++k) {
+                                        if(current_placed_a[k]) before_placed[k]=NOT_PLACED;
                                     }
                                 } else {
                                     //STEP 4.7
@@ -231,35 +231,35 @@ double plate::RSegment(double x_block, double y_block , double value_father, dou
                     }
 
                     //STEP 4.5
-                    for (auto k = i + 1; k < number_of_rectangles; ++k) {
-                        before_placed[k] += current_placed_a[k];
+                    for (auto k=(i+1); k < number_of_rectangles; ++k) {
+                        if(current_placed_a[k]) before_placed[k] = PLACED;
                     }
                     std::vector<int> current_placed_b(number_of_rectangles, NOT_PLACED);
                     double value_b = RSegment(x_b, y_b, value_father + rectangles[i].GetArea() + value_a, upper_father,
-                                            before_placed, current_placed_b, kc);
+                                              before_placed, current_placed_b, kc);
 
                     double value = rectangles[i].GetArea() + value_a + value_b;
                     if (value <= v_max) {
                         //step 4.8
-                        for (auto k = i + 1; k != number_of_rectangles; ++k) {
-                            before_placed[k] -= current_placed_a[k];
+                        for (auto k=(i+1); k != number_of_rectangles; ++k) {
+                            if(current_placed_a[k]) before_placed[k]=NOT_PLACED;
                         }
                     } else {//step 4.6
                         if (value <= v_max) {
                             //STEP 4.8
-                            for (auto k = i + 1; k != number_of_rectangles; ++k) {
-                                before_placed[k] -= current_placed_a[k];
+                            for (auto k=(i+1); k != number_of_rectangles; ++k) {
+                                if(current_placed_a[k]) before_placed[k]=NOT_PLACED;
                             }
                         } else {
                             v_max = value;
                             for (auto k = 0; k != number_of_rectangles; ++k) {
-                                current_placed[k] = current_placed_a[k] + current_placed_b[k];
+                                if(current_placed_a[k] || current_placed_b[k]) current_placed[k] = PLACED;
                             }
                             current_placed[i] = PLACED;
                             if (value_father + v_max <= v_best) {
                                 //STEP 4.8
-                                for (auto k = i + 1; k != number_of_rectangles; ++k) {
-                                    before_placed[k] -= current_placed_a[k];
+                                for (auto k = (i + 1); k != number_of_rectangles; ++k) {
+                                    if(current_placed_a[k]) before_placed[k]=NOT_PLACED;
                                 }
                             } else {
                                 //STEP 4.7
@@ -270,8 +270,9 @@ double plate::RSegment(double x_block, double y_block , double value_father, dou
                     }
                 }
             }
+            ++i;
         }
-        ++i;
+
     }
     return v_max;
 }
@@ -339,8 +340,8 @@ double plate::RBlock(double x_block, double y_block, double value_father, double
                     }
 
                     //STEP 4.5
-                    for (auto k = i + 1; k != number_of_rectangles; ++k) {
-                        before_placed[k] += current_placed_a[k];
+                    for (auto k=(i+1); k != number_of_rectangles; ++k) {
+                        if(current_placed_a[k]) before_placed[k] = PLACED;
                     }
                     std::vector<int> current_placed_b(number_of_rectangles, NOT_PLACED);
                     double value_b = RBlock(x_b, y_b, value_father + rectangles[i].GetArea() + value_a, upper_father,
@@ -349,25 +350,25 @@ double plate::RBlock(double x_block, double y_block, double value_father, double
                     double value = rectangles[i].GetArea() + value_a + value_b;
                     if (value <= v_max) {
                         //step 4.8
-                        for (auto k = i + 1; k != number_of_rectangles; ++k) {
-                            before_placed[k] -= current_placed_a[k];
+                        for (auto k=(i+1); k != number_of_rectangles; ++k) {
+                            if(current_placed_a[k]) before_placed[k]=NOT_PLACED;
                         }
                     } else {//step 4.6
                         if (value <= v_max) {
                             //STEP 4.8
-                            for (auto k = i + 1; k != number_of_rectangles; ++k) {
-                                before_placed[k] -= current_placed_a[k];
+                            for (auto k=(i+1); k != number_of_rectangles; ++k) {
+                                if(current_placed_a[k]) before_placed[k]=NOT_PLACED;
                             }
                         } else {
                             v_max = value;
                             for (auto k = 0; k != number_of_rectangles; ++k) {
-                                current_placed[k] = current_placed_a[k] + current_placed_b[k];
+                                if(current_placed_a[k] || current_placed_b[k]) current_placed[k] = PLACED;
                             }
                             current_placed[i] = PLACED;
                             if (value_father + v_max <= v_best) {
                                 //STEP 4.8
-                                for (auto k = i + 1; k != number_of_rectangles; ++k) {
-                                    before_placed[k] -= current_placed_a[k];
+                                for (auto k=(i+1); k != number_of_rectangles; ++k) {
+                                    if(current_placed_a[k]) before_placed[k]=NOT_PLACED;
                                 }
                             } else {
                                 //STEP 4.7
@@ -436,8 +437,8 @@ double plate::RBlock(double x_block, double y_block, double value_father, double
                         }
 
                         //STEP 4.5
-                        for (auto k = i + 1; k != number_of_rectangles; ++k) {
-                            before_placed[k] += current_placed_a[k];
+                        for (auto k=(i+1); k != number_of_rectangles; ++k) {
+                            if(current_placed_a[k]) before_placed[k] = PLACED;
                         }
                         std::vector<int> current_placed_b(number_of_rectangles, NOT_PLACED);
                         double value_b = RBlock(x_b, y_b, value_father + rectangles[i].GetArea() + value_a,
@@ -447,25 +448,25 @@ double plate::RBlock(double x_block, double y_block, double value_father, double
                         double value = rectangles[i].GetArea() + value_a + value_b;
                         if (value <= v_max) {
                             //step 4.8
-                            for (auto k = i + 1; k != number_of_rectangles; ++k) {
-                                before_placed[k] -= current_placed_a[k];
+                            for (auto k=(i+1); k != number_of_rectangles; ++k) {
+                                if(current_placed_a[k]) before_placed[k]=NOT_PLACED;
                             }
                         } else {//step 4.6
                             if (value <= v_max) {
                                 //STEP 4.8
-                                for (auto k = i + 1; k != number_of_rectangles; ++k) {
-                                    before_placed[k] -= current_placed_a[k];
+                                for (auto k=(i+1); k != number_of_rectangles; ++k) {
+                                    if(current_placed_a[k]) before_placed[k]=NOT_PLACED;
                                 }
                             } else {
                                 v_max = value;
                                 for (auto k = 0; k != number_of_rectangles; ++k) {
-                                    current_placed[k] = current_placed_a[k] + current_placed_b[k];
+                                    if(current_placed_a[k] || current_placed_b[k]) current_placed[k] = PLACED;
                                 }
                                 current_placed[i] = PLACED;
                                 if (value_father + v_max <= v_best) {
                                     //STEP 4.8
-                                    for (auto k = i + 1; k != number_of_rectangles; ++k) {
-                                        before_placed[k] -= current_placed_a[k];
+                                    for (auto k=(i+1); k != number_of_rectangles; ++k) {
+                                        if(current_placed_a[k]) before_placed[k]=NOT_PLACED;
                                     }
                                 } else {
                                     //STEP 4.7
@@ -493,8 +494,8 @@ double plate::RBlock(double x_block, double y_block, double value_father, double
                     }
 
                     //STEP 4.5
-                    for (auto k = i + 1; k < number_of_rectangles; ++k) {
-                        before_placed[k] += current_placed_a[k];
+                    for (auto k=(i+1); k < number_of_rectangles; ++k) {
+                        if(current_placed_a[k]) before_placed[k] = PLACED;
                     }
                     std::vector<int> current_placed_b(number_of_rectangles, NOT_PLACED);
                     double value_b = RBlock(x_b, y_b, value_father + rectangles[i].GetArea() + value_a, upper_father,
@@ -503,25 +504,25 @@ double plate::RBlock(double x_block, double y_block, double value_father, double
                     double value = rectangles[i].GetArea() + value_a + value_b;
                     if (value <= v_max) {
                         //step 4.8
-                        for (auto k = i + 1; k != number_of_rectangles; ++k) {
-                            before_placed[k] -= current_placed_a[k];
+                        for (auto k=(i+1); k != number_of_rectangles; ++k) {
+                            if(current_placed_a[k]) before_placed[k]=NOT_PLACED;
                         }
                     } else {//step 4.6
                         if (value <= v_max) {
                             //STEP 4.8
-                            for (auto k = i + 1; k != number_of_rectangles; ++k) {
-                                before_placed[k] -= current_placed_a[k];
+                            for (auto k=(i+1); k != number_of_rectangles; ++k) {
+                                if(current_placed_a[k]) before_placed[k]=NOT_PLACED;
                             }
                         } else {
                             v_max = value;
                             for (auto k = 0; k != number_of_rectangles; ++k) {
-                                current_placed[k] = current_placed_a[k] + current_placed_b[k];
+                                if(current_placed_a[k] || current_placed_b[k]) current_placed[k] = PLACED;
                             }
                             current_placed[i] = PLACED;
                             if (value_father + v_max <= v_best) {
                                 //STEP 4.8
-                                for (auto k = i + 1; k != number_of_rectangles; ++k) {
-                                    before_placed[k] -= current_placed_a[k];
+                                for (auto k=(i+1); k != number_of_rectangles; ++k) {
+                                    if(current_placed_a[k]) before_placed[k]=NOT_PLACED;
                                 }
                             } else {
                                 //STEP 4.7
@@ -532,8 +533,9 @@ double plate::RBlock(double x_block, double y_block, double value_father, double
                     }
                 }
             }
+            ++i;
         }
-        ++i;
+
     }
     return v_max;
 }
