@@ -10,7 +10,7 @@ private:
     double length;
     double width;
 public:
-    Rectangle(double, double);
+    Rectangle(double width, double length);
     double GetLength() const;
     double GetWidth() const;
     double GetArea() const;

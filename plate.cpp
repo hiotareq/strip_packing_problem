@@ -17,13 +17,21 @@ plate::plate(double _width, int new_number, std::vector<Rectangle> &new_rectangl
     for (auto &rectangle : rectangles) S += rectangle.GetArea();
 }
 
+double plate::GetS() const {
+    return S;
+}
+
+double plate::GetWidth() const {
+    return plate_width;
+}
+
 double plate::RSegment(double x_block, double y_block, double value_father, double upper_father,
                        std::vector<int> &before_placed, std::vector<int> &current_placed, int index) {
     //step 1
     y_block = plate_width;
     if (x_block == 0) return 0;
 
-    double v_max = 0, v_best = 0;
+    double v_max = 0, v_best = (S-0.1);
     int i = index;
 
     int kc = 0;
@@ -286,7 +294,7 @@ double plate::RBlock(double x_block, double y_block, double value_father, double
     //step 1
     if (x_block * y_block == 0) return 0;
 
-    double v_max = 0, v_best = 0;
+    double v_max = 0, v_best = (S-0.1);
     int i = index;
 
     int kc = 0;
