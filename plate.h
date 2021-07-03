@@ -12,11 +12,11 @@
 class plate {
 private:
     double plate_width;
-    int number_of_rectangles;
+    unsigned long number_of_rectangles;
     std::vector<Rectangle> rectangles;
     double S;
 public:
-    explicit plate(double, int, std::vector<Rectangle> &);
+    explicit plate(double, unsigned long, std::vector<Rectangle> &);
 
     //recursive function for filling a segment, returns value of a segment
     double

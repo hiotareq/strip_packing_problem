@@ -3,11 +3,12 @@
 //
 
 #include "plate.h"
+#include <thread>
 
 #define PLACED 1
 #define NOT_PLACED 0
 
-plate::plate(double _width, int new_number, std::vector<Rectangle> &new_rectangles) : plate_width(_width),
+plate::plate(double _width, unsigned long new_number, std::vector<Rectangle> &new_rectangles) : plate_width(_width),
                                                                                       number_of_rectangles(new_number),
                                                                                       rectangles(new_rectangles), S(0) {
     std::sort(rectangles.begin(), rectangles.end(), [](const Rectangle &a, const Rectangle &b) {
