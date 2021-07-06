@@ -27,7 +27,7 @@ public:
     double RBlock(double x_block, double y_block, double value_father, double upper_father,
                   std::vector<int> &before_placed, std::vector<int> &current_placed, int index);
 
-    int GetNumberOfRectangles() const;
+    unsigned long GetNumberOfRectangles() const;
 
     double GetS() const;
     double GetWidth() const;

@@ -1,9 +1,10 @@
 //
 // Created by hiotareq on 09.04.2021.
 //
-
+#include <iostream>
 #include "plate.h"
 #include <thread>
+#include <algorithm>
 
 #define PLACED 1
 #define NOT_PLACED 0
@@ -49,6 +50,15 @@ double plate::RSegment(double x_block, double y_block, double value_father, doub
                 //step 4.1
 
                 rectangles[i].Rotate();
+                if(rectangles[i].GetLength() > x_block || rectangles[i].GetWidth() > y_block){
+                    /*
+                     *here rotation gave bad result(rectangle do not match the block), so go to the next rectangle
+                     *return our rectangle to normal state and go work with next one
+                     */
+                    rectangles[i].Rotate();
+                    ++i;
+                    continue;
+                }
 
                 if (kc == 0) kc = i;
 
@@ -58,6 +68,10 @@ double plate::RSegment(double x_block, double y_block, double value_father, doub
 
                 double x_b = x_block - rectangles[i].GetLength();
                 double y_b = y_block;
+                if(x_a < 0 || y_a < 0 || x_b < 0 || y_b < 0) {
+                    std::cout << "Rectangle number is " << i << std::endl;
+                    exit(-4);
+                }
 
                 double u_b = rectangles[i].GetArea() + x_a * y_a + x_b * y_b;//upper bound of the section
                 double u_p = value_father + upper_father + u_b;//upper bound of whole pattern
@@ -134,6 +148,10 @@ double plate::RSegment(double x_block, double y_block, double value_father, doub
 
                 double x_b = x_block - rectangles[i].GetLength();
                 double y_b = y_block;
+                if(x_a < 0 || y_a < 0 || x_b < 0 || y_b < 0) {
+                    std::cout << "Rectangle number is " << i << std::endl;
+                    exit(-3);
+                }
 
                 double u_b = rectangles[i].GetArea() + x_a * y_a + x_b * y_b;//upper bound of the section
                 double u_p = value_father + upper_father + u_b;//upper bound of whole pattern
@@ -145,6 +163,15 @@ double plate::RSegment(double x_block, double y_block, double value_father, doub
                     //step 4.1
 
                     rectangles[i].Rotate();
+                    if(rectangles[i].GetLength() > x_block || rectangles[i].GetWidth() > y_block){
+                        /*
+                         *here rotation gave bad result(rectangle do not match the block), so go to the next rectangle
+                         *return our rectangle to normal state and go work with next one
+                         */
+                        rectangles[i].Rotate();
+                        ++i;
+                        continue;
+                    }
 
                     if (kc == 0) kc = i;
 
@@ -286,7 +313,7 @@ double plate::RSegment(double x_block, double y_block, double value_father, doub
     return v_max;
 }
 
-int plate::GetNumberOfRectangles() const {
+unsigned long plate::GetNumberOfRectangles() const {
     return number_of_rectangles;
 }
 
@@ -312,6 +339,15 @@ double plate::RBlock(double x_block, double y_block, double value_father, double
                 //step 4.1
 
                 rectangles[i].Rotate();
+                if(rectangles[i].GetLength() > x_block || rectangles[i].GetWidth() > y_block){
+                    /*
+                     *here rotation gave bad result(rectangle do not match the block), so go to the next rectangle
+                     *return our rectangle to normal state and go work with next one
+                     */
+                    rectangles[i].Rotate();
+                    ++i;
+                    continue;
+                }
 
                 if (kc == 0) kc = i;
 
@@ -321,6 +357,10 @@ double plate::RBlock(double x_block, double y_block, double value_father, double
 
                 double x_b = x_block;
                 double y_b = y_block - rectangles[i].GetWidth();
+                if(x_a < 0 || y_a < 0 || x_b < 0 || y_b < 0) {
+                    std::cout << "Rectangle number is " << i << std::endl;
+                    exit(-1);
+                }
 
                 double u_b = rectangles[i].GetArea() + x_a * y_a + x_b * y_b;//upper bound of the section
                 double u_p = value_father + upper_father + u_b;//upper bound of whole pattern
@@ -397,6 +437,10 @@ double plate::RBlock(double x_block, double y_block, double value_father, double
 
                 double x_b = x_block;
                 double y_b = y_block - rectangles[i].GetWidth();
+                if(x_a < 0 || y_a < 0 || x_b < 0 || y_b < 0) {
+                    std::cout << "Rectangle number is " << i << std::endl;
+                    exit(-2);
+                }
 
                 double u_b = rectangles[i].GetArea() + x_a * y_a + x_b * y_b;//upper bound of the section
                 double u_p = value_father + upper_father + u_b;//upper bound of whole pattern
@@ -408,6 +452,15 @@ double plate::RBlock(double x_block, double y_block, double value_father, double
                     //step 4.1
 
                     rectangles[i].Rotate();
+                    if(rectangles[i].GetLength() > x_block || rectangles[i].GetWidth() > y_block){
+                        /*
+                         *here rotation gave bad result(rectangle do not match the block), so go to the next rectangle
+                         *return our rectangle to normal state and go work with next one
+                         */
+                        rectangles[i].Rotate();
+                        ++i;
+                        continue;
+                    }
 
                     if (kc == 0) kc = i;
 
